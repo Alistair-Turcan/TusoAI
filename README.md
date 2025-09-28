@@ -4,9 +4,17 @@
 
 ![TusoAI overview](method_overview.png)
 
+### Capabilities of TusoAI
+
+
+
 ### Who should use TusoAI?
 
-TusoAI is intended for scientists in the process of building their method to perform well on some benchmark, e.g., simulations, train/test splits, real data benchmarks, etc. It can also be applied to general ML tasks.
+- Scientists in the process of building their method to perform well on some benchmark, such as:  
+  - simulations  
+  - train/test splits  
+  - real data benchmarks  
+- ML practicioners optimizing their model performance
 
 ---
 
@@ -41,6 +49,7 @@ TusoAI requires a template file with a `tuso_model` function. This function is t
 
 ### Extracting history
 
+extract_best_models.ipynb provides functionality for finding the best final method. Simply input the full_history.json file output from optimization. It will select the shortest method within 0.1% performance of the best method, to limit complexity.
 
 ---
 
