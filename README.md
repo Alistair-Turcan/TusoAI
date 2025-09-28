@@ -7,7 +7,7 @@
 ### Capabilities of TusoAI
 
 - **Domain knowledge integration** TusoAI dynamically extracts knowledge from the literature, the LLM, and the model/data. This creates a comprehensive set of instructions to fully search the optimization space.
-- **Hierarchical planning** The domain knowledge tree is also adaptively sampled from with Bayesian updates to ensure optimizations are always relevant, and feedback is stratified into categories so that TusoAI can integrate only the relevant feedback to guide optimization. 
+- **Hierarchical planning** The domain knowledge tree is adaptively sampled from with Bayesian updates to ensure optimizations are always relevant, and feedback is stratified into categories so that TusoAI can integrate only the relevant feedback to guide optimization. 
 - **Model complexity guarantees** Proposed methods must always remain with the specified time and memory limits. Optimizations which greatly increase complexity with little performance improvement are filtered through a code-text denoising process.
 - **Optimizing an existing method** TusoAI can work with a codebase of any size, as it only has to operate on a single function. This function can be empty, or initialized with an existing state-of-the-art method to further improve performance.
 
