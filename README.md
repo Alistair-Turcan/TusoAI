@@ -1,5 +1,7 @@
 ## What is TusoAI?
 
+![TusoAI overview](images/method_overview.png)
+
 ### Who should use TusoAI?
 
 ---
@@ -7,6 +9,8 @@
 ## How to use TusoAI
 
 ### Installation
+
+Download and unzip this directory. run_tusoai.ipynb is the main starting point of running TusoAI, see details in further sections below.
 
 TusoAI requires only 4 base packages, listed in requirements.txt, which can be installed with the following.
 
