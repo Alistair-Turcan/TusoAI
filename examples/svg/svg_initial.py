@@ -7,18 +7,6 @@ from scipy.sparse import csr_matrix
 from sklearn.neighbors import NearestNeighbors
 from scipy.sparse import issparse
 import random
-
-def spatial_correlation(adata):
-    corr = adata.var['pred_spatial_var_score'].corr(
-        adata.var['true_spatial_var_score'], method="kendall"
-    )
-    if pd.isna(corr):
-        corr = 0.0
-    return corr
-import pandas as pd
-import numpy as np
-from sklearn.metrics import roc_auc_score, f1_score
-
 import numpy as np
 import pandas as pd
 from sklearn.metrics import roc_auc_score, f1_score
