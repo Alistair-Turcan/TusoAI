@@ -1,6 +1,6 @@
 ## What is TusoAI?
 
-![TusoAI overview](images/method_overview.png)
+![TusoAI overview](method_overview.png)
 
 ### Who should use TusoAI?
 
