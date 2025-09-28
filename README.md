@@ -1,5 +1,7 @@
 ## What is TusoAI?
 
+**TusoAI** is an open-source, agentic system for **scientific method optimization**. Given a task description and template (Python) script, TusoAI will autonomously implement and test optimizations to maximize a user-defined score. It mimics the process by which a researcher may optimize their own method: by considering their own knowledge of the task, extracting insights from the literature, diagnosing intermediate steps of their method/data, and considering feedback from previous attempts. TusoAI outputs a final optimized method which scientists may use in downstream applications.
+
 ![TusoAI overview](method_overview.png)
 
 ### Who should use TusoAI?
