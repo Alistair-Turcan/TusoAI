@@ -6,6 +6,8 @@
 
 ### Who should use TusoAI?
 
+TusoAI is intended for scientists in the process of building their method to perform well on some benchmark, e.g., simulations, train/test splits, real data benchmarks, etc. It can also be applied to general ML tasks.
+
 ---
 
 ## How to use TusoAI
