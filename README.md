@@ -30,12 +30,14 @@ pip install -U aideml
 
 ### Setup
 
-TusoAI requires a template file with a "tuso_model" function. This function is the only function TusoAI ever sees and operates on, the rest of the code remains fixed. This ensures the evaluation scheme is never altered, and enables TusoAI to work with arbitrarily large codebases. This template file should print out an evaluation metric, which TusoAI will extract and use to evaluate performance. See template.py for an example, as well as initial files in the examples directory.
+TusoAI requires a template file with a `tuso_model` function. This function is the only function TusoAI ever sees and operates on, the rest of the code remains fixed. This ensures the evaluation scheme is never altered, and enables TusoAI to work with arbitrarily large codebases. This template file should print out an evaluation metric, which TusoAI will extract and use to evaluate performance. See `template.py` for an example, as well as initial files in the `examples` directory.
 
 
 ### Running
 
-'run_tusoai.ipynb' is 
+`run_tusoai.ipynb` is the starting point for using TusoAI. This file exposes all the hyperparameters, initializes the knowledge tree and solutons, and runs the optimization scheme. Notably, the user can add more categories, instructions, or initial solutions based off their own knowledge of the task. 
+
+2 LLM backbones have been tested and are recommended: `gpt-4o-mini` from OpenAI, and `claude-3.5-haiku` from Anthropic. These models are cheap and fast, and perform as strongly, if not better than their more expensive counterparts `gpt-5` and `claude-4-sonnet`. For instance, running the denoising task for 8 hours cost ~$0.22 with `gpt-4o-mini`, and ~$22 with `gpt-5`, with roughly the same final performance.
 
 ### Extracting history
 
