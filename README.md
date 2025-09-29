@@ -17,7 +17,7 @@
   - simulations  
   - train/test splits  
   - real data benchmarks  
-- ML practicioners optimizing their model performance
+- ML practitioners optimizing their model performance
 
 ---
 
