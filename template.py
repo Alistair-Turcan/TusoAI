@@ -7,7 +7,7 @@ def evaluate(...):
 def load_data(...):
 
     return data
-def tuso_model(...): #The only function TusoAI ever operates on. IMPORTANT: Keep the header one line.
+def tuso_model(...):#The only function TusoAI ever operates on. IMPORTANT: Keep the header one line.
 
     return ...
 def main():
