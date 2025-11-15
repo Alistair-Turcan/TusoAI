@@ -110,7 +110,7 @@ def evaluate(predictions):
 
     return mean_val
     
-predictor_file = 'pgboost/alistair/features_files/predictors.txt'
+predictor_file = 'pgboost/features_files/predictors.txt'
 data_file = 'pgboost/all_data.csv'
 LOO_colname = 'chr'
 seed = 511
