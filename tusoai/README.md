@@ -1,12 +1,12 @@
-This folder contains the source code for TusoAI.
+## TusoAI Source Code Overview
 
-construct_categories.py contains code for generating and refining instruction categories.
-construct_initializations.py contains code for generating and refining initial solution descriptions.
-construct_prompts.py contains code for generating and refining instructions within categories.
-diagnostic_prompts.json contains a list of the default diagnostic prompts.
-extract_literature.py contains code for extracting and parsing literature from Semantic Scholar.
-generic_prompts.json contains some general prompts, used in the ablation studies.
-initialize_llm.py contains code for generic LLM client initializations.
-optimizer.py contains much of the TusoAI method, including generating initial solutions, refining them, debugging, and returning the finally optimized code.
-summarize_literature.py contains code for summarizing the literature extracted from Semantic Scholar into short technical summaries.
-tusoai.py is a general class that organizes calls to other files.
+- **construct_categories.py** — Generates and refines instruction categories.
+- **construct_initializations.py** — Generates and refines initial solution descriptions.
+- **construct_prompts.py** — Generates and refines instructions within categories.
+- **diagnostic_prompts.json** — Contains the default diagnostic prompts.
+- **extract_literature.py** — Extracts and parses literature from Semantic Scholar.
+- **generic_prompts.json** — Contains general prompts used in ablation studies.
+- **initialize_llm.py** — Provides generic LLM client initializations.
+- **optimizer.py** — Implements core TusoAI logic including generating, refining, debugging, and optimizing solutions.
+- **summarize_literature.py** — Summarizes extracted Semantic Scholar literature into concise technical summaries.
+- **tusoai.py** — Main class coordinating calls to other modules.
