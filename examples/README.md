@@ -1,0 +1,1 @@
+This folder contains the results for 6 examples. Each contains the template script XXX_initial.py, the final method XXX_tusoai.py, and the optimization history XXX_full_history.json, able to be parsed with extract_best_models.ipynb.
