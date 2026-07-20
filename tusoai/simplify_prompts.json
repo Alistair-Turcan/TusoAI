@@ -1,0 +1,24 @@
+{
+  "simplify": [
+    "by reducing runtime while maintaining performance",
+    "by significantly shortening the code in a principled manner",
+    "by vectorizing operations to minimize runtime",
+    "by simplifying the method without sacrificing performance",
+    "by removing an unimportant part of the method that will not affect performance",
+    "by replacing repeated computations with cached intermediate results",
+    "by removing redundant loops and consolidating equivalent logic",
+    "by using numerically stable approximations that are faster but equally accurate",
+    "by eliminating unnecessary data copies and conversions",
+    "by reducing algorithmic complexity in the bottleneck section",
+    "by using batched operations instead of item-by-item processing",
+    "by pruning expensive branches that rarely improve outcomes",
+    "by tightening convergence criteria to avoid wasted iterations",
+    "by replacing Python-level loops with optimized array operations",
+    "by reusing precomputed statistics instead of recomputing each call",
+    "by simplifying control flow to reduce overhead and improve readability",
+    "by cutting non-essential post-processing while preserving score",
+    "by using lightweight data structures where full objects are unnecessary",
+    "by minimizing memory allocations in hot paths",
+    "by removing low-impact heuristic steps that add cost but little gain"
+  ]
+}

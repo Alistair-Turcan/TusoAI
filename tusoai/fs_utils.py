@@ -1,0 +1,62 @@
+from __future__ import annotations
+
+import errno
+import shutil
+from pathlib import Path
+from typing import Any
+
+_IGNORABLE_METADATA_ERRNOS = {
+    errno.EPERM,
+    errno.EINVAL,
+    getattr(errno, "ENOTSUP", errno.EOPNOTSUPP),
+    getattr(errno, "EOPNOTSUPP", errno.ENOTSUP),
+}
+
+
+def is_ignorable_metadata_error(exc: BaseException) -> bool:
+    """Return True for filesystem metadata errors common on object-store FUSE mounts."""
+    err_no = getattr(exc, "errno", None)
+    return isinstance(exc, OSError) and err_no in _IGNORABLE_METADATA_ERRNOS
+
+
+def copytree_portable(src: str | Path, dst: str | Path, **kwargs: Any) -> Any:
+    """Copy a tree without failing on chmod/utime metadata operations.
+
+    S3-FUSE and similar object-store mounts can allow file data copies while
+    rejecting metadata updates such as chmod or utime. shutil.copytree performs
+    copystat on directories even when copy_function=shutil.copy is used, so we
+    temporarily make copystat swallow those mount-specific errors.
+    """
+    kwargs.setdefault("copy_function", shutil.copy)
+    original_copystat = shutil.copystat
+
+    def _safe_copystat(source: str | Path, destination: str | Path, *args: Any, **inner_kwargs: Any) -> None:
+        try:
+            original_copystat(source, destination, *args, **inner_kwargs)
+        except OSError as exc:
+            if not is_ignorable_metadata_error(exc):
+                raise
+
+    shutil.copystat = _safe_copystat
+    try:
+        return shutil.copytree(src, dst, **kwargs)
+    finally:
+        shutil.copystat = original_copystat
+
+
+def rmtree_portable(path: str | Path, **kwargs: Any) -> None:
+    """Remove a tree while ignoring object-store FUSE rmdir metadata errors."""
+    if kwargs.get("ignore_errors"):
+        shutil.rmtree(path, **kwargs)
+        return
+
+    def _onerror(func: Any, failed_path: str, exc_info: tuple[type[BaseException], BaseException, Any]) -> None:
+        exc = exc_info[1]
+        if getattr(func, "__name__", "") == "rmdir" and is_ignorable_metadata_error(exc):
+            return
+        if is_ignorable_metadata_error(exc):
+            return
+        raise exc
+
+    kwargs.setdefault("onerror", _onerror)
+    shutil.rmtree(path, **kwargs)

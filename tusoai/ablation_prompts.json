@@ -1,0 +1,19 @@
+{
+  "ablation": [
+    "by removing each major component one at a time (leave everything else identical) to measure its standalone contribution to the metric",
+    "by replacing each major component with a minimal baseline version (simplest reasonable alternative) to test whether complexity is actually earning metric gains",
+    "by ablating each input signal/source independently (drop one source/feature group at a time) to quantify which inputs drive performance",
+    "by running 'only-X' variants (keep only one source/feature group while dropping the rest) to reveal which inputs are sufficient on their own",
+    "by disabling each preprocessing/normalization/augmentation step individually to see which data handling steps are beneficial vs. incidental",
+    "by removing each constraint/regularizer/penalty term (or its equivalent) individually to test whether it improves generalization vs. just changes optimization behavior",
+    "by turning off each post-processing step (thresholding, smoothing, rule filters, calibration, reranking, etc.) to see whether gains come from the core method or downstream tweaks",
+    "by substituting any learned/scored decision rule with a simple fixed rule (e.g., default threshold, uniform weighting, uncalibrated score) to isolate the value of the learned decision logic",
+    "by testing an 'identity' ablation for each transformation stage (skip the transform so inputs flow through unchanged) to confirm the transform is doing useful work",
+    "by reducing capacity/expressiveness wherever applicable (fewer parameters, fewer layers/steps, smaller embedding/dimension, fewer rules/experts) to assess whether performance depends on scale",
+    "by increasing capacity/expressiveness wherever applicable (more parameters, more layers/steps, larger dimension, more rules/experts) to check if performance is bottlenecked by under-capacity",
+    "by ablating any iterative/refinement stage (run a single pass instead of multiple passes) to measure the value of refinement versus the base pass",
+    "by ablating any stochastic element (disable randomness, sampling, dropout-like behavior, or exploration) to see whether randomness helps the metric or just adds variance",
+    "by swapping any domain-specific heuristic with a domain-agnostic default (generic heuristic / no heuristic) to test whether gains rely on handcrafted knowledge",
+    "by removing any external dependency (retrieval, tools, caches, auxiliary models, external resources) to quantify how much metric performance comes from external information versus the method itself"
+  ]
+}

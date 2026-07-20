@@ -1,0 +1,19 @@
+{
+  "general": [
+    "by improving this method using any applicable techniques you are aware of",
+    "by improving this method using alternative formulations or representations",
+    "by improving this method using insights from related methods or domains",
+    "by improving this method using more effective optimization strategies",
+    "by improving this method using better inductive biases or assumptions",
+    "by identifying and addressing the primary performance bottlenecks in the approach",
+    "by modifying the method to better exploit the structure present in the data",
+    "by simplifying or restructuring components that hinder effective optimization",
+    "by enhancing the method’s ability to generalize beyond the training data",
+    "by combining this approach with complementary techniques to improve overall performance",
+    "by revising assumptions or constraints that limit the method’s effectiveness",
+    "by refining the optimization objective to better align with the desired outcome",
+    "by adapting the method dynamically based on feedback during training or evaluation",
+    "by exploring alternative formulations of the method that achieve the same goal more effectively",
+    "by systematically experimenting with variations of the method to uncover higher-performing configurations"
+  ]
+}

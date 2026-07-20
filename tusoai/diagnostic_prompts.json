@@ -1,0 +1,19 @@
+{
+  "diagnostic": [
+    "by printing a short, consistent message at the start and end of each major step so you can confirm execution order and control flow",
+    "by printing key input parameters and configuration values (including defaults) to ensure the code is running under the assumptions you expect",
+    "by printing shapes, lengths, and type information for important variables to quickly spot mismatches or unexpected structures",
+    "by printing representative samples of data (e.g., first/last few items, random examples) rather than entire datasets to keep output readable",
+    "by printing summary statistics for data (e.g., min/max/mean, distinct counts, missing value counts) to validate data characteristics at each stage",
+    "by printing explicit checks of method assumptions (e.g., expected ordering, uniqueness, monotonicity, normalization) and flagging when they are violated",
+    "by printing intermediate results at boundaries between components (e.g., pre/post transformation) to isolate where unexpected values first appear",
+    "by printing sentinel markers around conditional branches and loops so you can verify which paths are taken and how often",
+    "by printing error-context details when failures occur (inputs, indices, relevant identifiers) to make issues reproducible and easier to trace",
+    "by printing timing information for expensive steps (start/stop timestamps or durations) to identify performance bottlenecks without guessing",
+    "by printing resource-related indicators when relevant (e.g., batch sizes, memory-heavy object sizes, cache hits/misses) to explain slowdowns or crashes",
+    "by printing invariant assertions and their outcomes (pass/fail) to confirm that core expectations remain true throughout execution",
+    "by printing logging at multiple verbosity levels (e.g., minimal vs. detailed) so you can scale diagnostics up or down without rewriting messages",
+    "by printing identifiers for key entities (record IDs, filenames, request IDs) to correlate outputs across stages and across runs",
+    "by printing a concise final report (counts processed, successes/failures, key metrics) to validate end-to-end behavior and compare runs"
+  ]
+}
