@@ -1,4 +1,0 @@
-requests
-pymupdf
-scikit-learn
-openai
