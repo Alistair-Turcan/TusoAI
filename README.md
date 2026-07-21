@@ -10,11 +10,32 @@ Here are several advantages of TusoAI:
 3. Focuses on generating efficient, scalable, and diverse code optimizations, creating fundamentally new methods instead of small parameter tweaks.
 4. Maintains history over 100's of iterations through a custom hierarchical feedback loop.
 
+## Using Biomni x TusoAI
+
 We have also integrated TusoAI directly into the Biomni ecosystem. Biomni is a general purpose biomedical agent that will autonomously iterate on the "meta-setup", which is the code, data, evals, and input to TusoAI. Biomni will monitor TusoAI, fix/update the setup, and return you a new method with strong performance. This integration makes such method development "code-free" and accessible to anyone purely through natural language. Register for a free Biomni account at [phylo.bio](https://phylo.bio/), load the `tusoai` skill, and describe the method you want to build.
 
 We also provide `tusoskill`, wherein a powerful generalist agent like Biomni mimics the method development process of TusoAI. This is ideal for cases where it is less clear how to set up a proper validation experiment, such as if its unclear what data to use, it's a particularly GPU-heavy task, or there's lots of metrics with unclear ceilings. This is also available within Biomni under the skills tab.
 
-For the original repository accompying our ICLR paper, see TusoAI_ICLR.zip.
+Here's an example using Biomni with TusoAI: 
+
+"
+Set up the expression->atac task of figure 3 of this paper: https://www.nature.com/articles/s41592-024-02429-w
+
+Using the tusoai skill, make a method for this task. Run with a 10$ cost and 72 hour time limit. After the method is built, apply it to their full testing set and measure performance, exactly how they do it, comparing performance against the precomputed baselines they provide.
+
+Here's our api keys for tusoai:
+
+semantic_scholar_api_key='XXX'
+
+chatgpt api_key = 'XXX'
+"
+
+Here's an example using Biomni with TusoSkill: 
+
+"
+Set up this task following their instructions: https://mls-bench.com/tasks/ai4sci-pla-binding-affinity
+Using tusoskill, make a method for this task. Perform 50 iterations, you have access to an H100. After the method is built, apply it to their full testing set and measure performance, exactly how they do it, comparing performance against the precomputed baselines they provide.
+"
 
 ## Instructions
 
@@ -176,7 +197,9 @@ This repository is licensed under the terms in `LICENSE`.
 
 ## Citation
 
-If you use this repository, please cite:
+For the original repository accompying our ICLR paper, see TusoAI_ICLR.zip.
+
+If you use this repository, please cite the ICLR paper for now, a new paper will be released in the coming months:
 
 ```bibtex
 @article{turcan2025tusoai,
