@@ -60,7 +60,32 @@ export OPENAI_API_KEY="..."
 export SEMANTIC_SCHOLAR_API_KEY="..."
 ```
 
-TusoAI supports `provider="openai"` and `provider="claude"`. When overriding `model_settings`, provide all three stages—`pdf`, `construction`, and `optimization`—each with a `model` and optional `thinking`, `thinking_tokens`, and `reasoning_mode`. The built-in settings use OpenAI models; Claude users must supply provider-compatible models for all three stages.
+TusoAI supports `provider="openai"` and `provider="claude"`. Claude uses current
+provider-specific defaults out of the box: Haiku 4.5 for PDF processing, Fable 5
+for construction, and Sonnet 5 for optimization. The four latest supported
+Claude aliases are:
+
+| Model | API model ID | Input / output price per million tokens |
+| --- | --- | --- |
+| Claude Fable 5 | `claude-fable-5` | $5 / $25 |
+| Claude Opus 5 | `claude-opus-5` | $5 / $25 |
+| Claude Sonnet 5 | `claude-sonnet-5` | $3 / $15 |
+| Claude Haiku 4.5 | `claude-haiku-4-5` | $1 / $5 |
+
+Model aliases are also available from `tusoai.CLAUDE_MODELS`. To use the
+Claude defaults, only the provider and API key are needed:
+
+```python
+ai = Tusoai.from_api_key(
+    api_key=os.environ["ANTHROPIC_API_KEY"],
+    provider="claude",
+)
+```
+
+When overriding `model_settings`, provide all three stages—`pdf`,
+`construction`, and `optimization`—each with a `model` and optional `thinking`,
+`thinking_tokens`, and `reasoning_mode`. Model IDs with dated suffixes are also
+accepted, for example `claude-haiku-4-5-20251001`.
 
 ### 3. Prepare the evaluator
 

@@ -8,6 +8,29 @@ import time
 
 Provider = Literal["openai", "claude"]
 
+# Current Claude model aliases from Anthropic's model overview.  Keeping these
+# in one public mapping makes it possible for callers (and the defaults below)
+# to use the supported names without duplicating string literals.
+CLAUDE_MODELS: Dict[str, str] = {
+    "fable_5": "claude-fable-5",
+    "opus_5": "claude-opus-5",
+    "sonnet_5": "claude-sonnet-5",
+    "haiku_4_5": "claude-haiku-4-5",
+}
+
+DEFAULT_MODEL_SETTINGS: Dict[Provider, Dict[str, Dict[str, Any]]] = {
+    "openai": {
+        "pdf": {"model": "gpt-5.4-nano"},
+        "construction": {"model": "gpt-5.4"},
+        "optimization": {"model": "gpt-5.4-mini"},
+    },
+    "claude": {
+        "pdf": {"model": CLAUDE_MODELS["haiku_4_5"]},
+        "construction": {"model": CLAUDE_MODELS["fable_5"]},
+        "optimization": {"model": CLAUDE_MODELS["sonnet_5"]},
+    },
+}
+
 GENERAL_CLIENT: Any = None
 GENERAL_PROVIDER: Provider = "openai"
 GENERAL_TEMP: float = 1.0
@@ -51,11 +74,11 @@ class Tusoai:
         model_settings: Optional[Dict[str, Dict[str, Any]]] = None,
         max_tokens: Optional[int] = None,
     ) -> None:
-        model_settings = model_settings or {
-            "pdf": {"model": "gpt-5.4-nano"},
-            "construction": {"model": "gpt-5.4"},
-            "optimization": {"model": "gpt-5.4-mini"},
-        }
+        if model_settings is None:
+            model_settings = {
+                stage: dict(settings)
+                for stage, settings in DEFAULT_MODEL_SETTINGS[provider].items()
+            }
 
         required = {"pdf", "construction", "optimization"}
         missing = [k for k in required if k not in model_settings]
@@ -374,6 +397,12 @@ def _get_rates_usd_per_1m(
         raise ValueError(f"Unsupported OpenAI model for cost calc: {model}")
 
     if provider == "claude":
+        if m.startswith("claude-fable-5"):
+            return {"input": 5.00, "cached_input": 0.50, "output": 25.00}
+        if m.startswith("claude-opus-5"):
+            return {"input": 5.00, "cached_input": 0.50, "output": 25.00}
+        if m.startswith("claude-sonnet-5"):
+            return {"input": 3.00, "cached_input": 0.30, "output": 15.00}
         if m.startswith("claude-opus-4-6") or m.startswith("claude-opus-4-5"):
             return {"input": 5.00, "cached_input": 0.50, "output": 25.00}
         if m.startswith("claude-sonnet-4-6") or m.startswith("claude-sonnet-4-5"):
@@ -764,6 +793,8 @@ def run_prompt(message: str) -> Tuple[str, float]:
 __all__ = [
     "Tusoai",
     "Provider",
+    "CLAUDE_MODELS",
+    "DEFAULT_MODEL_SETTINGS",
     "configure_default_client",
     "init",
     "run_prompt",
