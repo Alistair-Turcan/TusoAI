@@ -1,4 +1,12 @@
-from tusoai.llm import Tusoai, configure_default_client, init, run_prompt, run_prompt_full
+from tusoai.llm import (
+    CLAUDE_MODELS,
+    DEFAULT_MODEL_SETTINGS,
+    Tusoai,
+    configure_default_client,
+    init,
+    run_prompt,
+    run_prompt_full,
+)
 from tusoai.literature import run_download_top_pdfs
 from tusoai.prompts import add_general_prompts_and_probability, load_ablation_prompts, load_diagnostic_prompts
 from tusoai.subtasks import create_data_subtask, create_method_subtask
@@ -6,6 +14,8 @@ from tusoai.optimization import DataTask, MethodTask, Task, optimize
 
 __all__ = [
     "DataTask",
+    "CLAUDE_MODELS",
+    "DEFAULT_MODEL_SETTINGS",
     "MethodTask",
     "Tusoai",
     "Task",
