@@ -12,7 +12,6 @@ import os
 import random
 import re
 import resource
-import shutil
 import string
 import subprocess
 import sys
@@ -27,7 +26,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tuple, Union
 
 
-from tusoai.fs_utils import copytree_portable, rmtree_portable
+from tusoai.fs_utils import copyfile_portable, copytree_portable, rmtree_portable
 from tusoai.llm import run_prompt, submit_default_prompt_batch, poll_default_prompt_batch
 from tusoai.optimization_prompts import (
     build_mutation_base_prompt,
@@ -343,7 +342,7 @@ def copy_file(source, index):
     
     file_name, file_ext = os.path.splitext(source)
     new_file = f"{file_name}_{index}{file_ext}"
-    shutil.copy(source, new_file)
+    copyfile_portable(source, new_file)
     return new_file
 
 def extract_functions(content, include_nested=False):
@@ -1992,7 +1991,7 @@ def _dm_prepare_eval_workspace(
         src_path = Path(source["file_path"])
         dst_path = base_path / local_rel
         dst_path.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy(src_path, dst_path)
+        copyfile_portable(src_path, dst_path)
     repo_workspaces: Dict[str, Path] = {}
     for repo_root, snapshot_path in repo_snapshots.items():
         repo_name = Path(str(repo_root)).name
@@ -2010,7 +2009,7 @@ def _dm_prepare_eval_workspace(
         if workspace_runner.exists():
             eval_path = workspace_runner
     if eval_path == base_path / f"{safe_tag}.py":
-        shutil.copy(ref_path, eval_path)
+        copyfile_portable(ref_path, eval_path)
     return eval_path, repo_workspaces
 
 
