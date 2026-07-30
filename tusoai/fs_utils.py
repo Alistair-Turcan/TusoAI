@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import errno
+import os
 import shutil
 from pathlib import Path
 from typing import Any
@@ -19,15 +20,36 @@ def is_ignorable_metadata_error(exc: BaseException) -> bool:
     return isinstance(exc, OSError) and err_no in _IGNORABLE_METADATA_ERRNOS
 
 
+def copyfile_portable(
+    src: str | Path,
+    dst: str | Path,
+    *,
+    follow_symlinks: bool = True,
+) -> str:
+    """Copy file contents without applying metadata unsupported by S3-FUSE.
+
+    This has the destination-directory behavior and return value of
+    :func:`shutil.copy`, but deliberately uses :func:`shutil.copyfile` rather
+    than applying the source mode with ``copymode``. The omitted mode update is
+    the part of ``shutil.copy`` that commonly fails on object-store mounts.
+    """
+    destination = os.fspath(dst)
+    if Path(destination).is_dir():
+        destination = os.path.join(destination, os.path.basename(os.fspath(src)))
+    shutil.copyfile(src, destination, follow_symlinks=follow_symlinks)
+    return destination
+
+
 def copytree_portable(src: str | Path, dst: str | Path, **kwargs: Any) -> Any:
     """Copy a tree without failing on chmod/utime metadata operations.
 
     S3-FUSE and similar object-store mounts can allow file data copies while
-    rejecting metadata updates such as chmod or utime. shutil.copytree performs
-    copystat on directories even when copy_function=shutil.copy is used, so we
-    temporarily make copystat swallow those mount-specific errors.
+    rejecting metadata updates such as chmod or utime. ``shutil.copytree``
+    performs ``copystat`` on directories even when its file copy function does
+    not preserve metadata, so we temporarily make ``copystat`` swallow those
+    mount-specific errors.
     """
-    kwargs.setdefault("copy_function", shutil.copy)
+    kwargs.setdefault("copy_function", copyfile_portable)
     original_copystat = shutil.copystat
 
     def _safe_copystat(source: str | Path, destination: str | Path, *args: Any, **inner_kwargs: Any) -> None:
