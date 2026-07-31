@@ -8,6 +8,13 @@ import time
 
 Provider = Literal["openai", "claude"]
 
+# Stable aliases for OpenAI's named GPT releases.  Keeping the API IDs in one
+# place avoids callers having to repeat them in each stage's model settings.
+OPENAI_MODELS: Dict[str, str] = {
+    "luna": "gpt-luna",
+    "terra": "gpt-terra",
+}
+
 # Current Claude model aliases from Anthropic's model overview.  Keeping these
 # in one public mapping makes it possible for callers (and the defaults below)
 # to use the supported names without duplicating string literals.
@@ -21,8 +28,8 @@ CLAUDE_MODELS: Dict[str, str] = {
 DEFAULT_MODEL_SETTINGS: Dict[Provider, Dict[str, Dict[str, Any]]] = {
     "openai": {
         "pdf": {"model": "gpt-5.4-nano"},
-        "construction": {"model": "gpt-5.4"},
-        "optimization": {"model": "gpt-5.4-mini"},
+        "construction": {"model": OPENAI_MODELS["terra"]},
+        "optimization": {"model": OPENAI_MODELS["luna"]},
     },
     "claude": {
         "pdf": {"model": CLAUDE_MODELS["haiku_4_5"]},
@@ -379,6 +386,12 @@ def _get_rates_usd_per_1m(
     m = model.lower().strip()
 
     if provider == "openai":
+        if m.startswith(OPENAI_MODELS["luna"]):
+            return {"input": 2.00, "cached_input": 0.20, "output": 10.00}
+
+        if m.startswith(OPENAI_MODELS["terra"]):
+            return {"input": 5.00, "cached_input": 0.50, "output": 25.00}
+
         if m == "gpt-4o-mini" or "gpt-4o-mini" in m:
             return {"input": 0.15, "cached_input": 0.075, "output": 0.60}
 

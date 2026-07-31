@@ -72,6 +72,18 @@ Claude aliases are:
 | Claude Sonnet 5 | `claude-sonnet-5` | $3 / $15 |
 | Claude Haiku 4.5 | `claude-haiku-4-5` | $1 / $5 |
 
+OpenAI's latest named GPT models are supported by their API aliases. Terra is
+the default construction model and Luna is the default optimization model:
+
+| Model | API model ID | Input / cached input / output price per million tokens |
+| --- | --- | --- |
+| GPT Luna | `gpt-luna` | $2 / $0.20 / $10 |
+| GPT Terra | `gpt-terra` | $5 / $0.50 / $25 |
+
+These aliases are available from `tusoai.OPENAI_MODELS`. Dated model snapshots
+(for example, `gpt-luna-2026-07-15`) use the same pricing and are accepted by
+the OpenAI request and cost-accounting paths.
+
 Model aliases are also available from `tusoai.CLAUDE_MODELS`. To use the
 Claude defaults, only the provider and API key are needed:
 
