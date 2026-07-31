@@ -1,6 +1,7 @@
 from tusoai.llm import (
     CLAUDE_MODELS,
     DEFAULT_MODEL_SETTINGS,
+    OPENAI_MODELS,
     Tusoai,
     configure_default_client,
     init,
@@ -16,6 +17,7 @@ __all__ = [
     "DataTask",
     "CLAUDE_MODELS",
     "DEFAULT_MODEL_SETTINGS",
+    "OPENAI_MODELS",
     "MethodTask",
     "Tusoai",
     "Task",
