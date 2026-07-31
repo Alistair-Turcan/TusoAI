@@ -387,7 +387,7 @@ def _get_rates_usd_per_1m(
 
     if provider == "openai":
         if m.startswith(OPENAI_MODELS["luna"]):
-            return {"input": 2.00, "cached_input": 0.20, "output": 10.00}
+            return {"input": 2.50, "cached_input": 0.25, "output": 15.00}
 
         if m.startswith(OPENAI_MODELS["terra"]):
             return {"input": 5.00, "cached_input": 0.50, "output": 25.00}

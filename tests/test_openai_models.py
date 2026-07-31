@@ -8,7 +8,7 @@ from tusoai.llm import _estimate_cost_usd, run_prompt_full, submit_prompt_batch
 
 @pytest.mark.parametrize(
     ("key", "model", "expected_cost"),
-    [("luna", "gpt-luna", 12.0), ("terra", "gpt-terra", 30.0)],
+    [("luna", "gpt-luna", 17.5), ("terra", "gpt-terra", 30.0)],
 )
 def test_named_openai_aliases_and_pricing(key, model, expected_cost):
     assert OPENAI_MODELS[key] == model
@@ -18,6 +18,16 @@ def test_named_openai_aliases_and_pricing(key, model, expected_cost):
         input_tokens=1_000_000,
         output_tokens=1_000_000,
     ) == pytest.approx(expected_cost)
+
+
+def test_luna_cached_input_pricing():
+    assert _estimate_cost_usd(
+        provider="openai",
+        model="gpt-luna",
+        input_tokens=1_000_000,
+        cached_input_tokens=1_000_000,
+        output_tokens=0,
+    ) == pytest.approx(0.25)
 
 
 def test_openai_defaults_use_named_models_for_main_stages():

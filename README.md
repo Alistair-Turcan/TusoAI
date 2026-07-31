@@ -77,7 +77,7 @@ the default construction model and Luna is the default optimization model:
 
 | Model | API model ID | Input / cached input / output price per million tokens |
 | --- | --- | --- |
-| GPT Luna | `gpt-luna` | $2 / $0.20 / $10 |
+| GPT Luna | `gpt-luna` | $2.50 / $0.25 / $15 |
 | GPT Terra | `gpt-terra` | $5 / $0.50 / $25 |
 
 These aliases are available from `tusoai.OPENAI_MODELS`. Dated model snapshots
