@@ -75,13 +75,15 @@ Claude aliases are:
 OpenAI's latest named GPT models are supported by their API aliases. Terra is
 the default construction model and Luna is the default optimization model:
 
-| Model | API model ID | Input / cached input / output price per million tokens |
-| --- | --- | --- |
-| GPT Luna | `gpt-luna` | $2.50 / $0.25 / $15 |
-| GPT Terra | `gpt-terra` | $5 / $0.50 / $25 |
+| Model | API model ID | Context | Input / cached input / cache write / output per million tokens |
+| --- | --- | --- | --- |
+| GPT 5.6 Luna | `gpt-5.6-luna` | Short | $0.20 / $0.02 / $0.25 / $1.20 |
+| GPT 5.6 Luna | `gpt-5.6-luna` | Long | $0.40 / $0.04 / $0.50 / $1.80 |
+| GPT 5.6 Terra | `gpt-5.6-terra` | Short | $2 / $0.20 / $2.50 / $12 |
+| GPT 5.6 Terra | `gpt-5.6-terra` | Long | $4 / $0.40 / $5 / $18 |
 
 These aliases are available from `tusoai.OPENAI_MODELS`. Dated model snapshots
-(for example, `gpt-luna-2026-07-15`) use the same pricing and are accepted by
+(for example, `gpt-5.6-luna-2026-07-15`) use the same pricing and are accepted by
 the OpenAI request and cost-accounting paths.
 
 Model aliases are also available from `tusoai.CLAUDE_MODELS`. To use the

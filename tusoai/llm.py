@@ -11,8 +11,8 @@ Provider = Literal["openai", "claude"]
 # Stable aliases for OpenAI's named GPT releases.  Keeping the API IDs in one
 # place avoids callers having to repeat them in each stage's model settings.
 OPENAI_MODELS: Dict[str, str] = {
-    "luna": "gpt-luna",
-    "terra": "gpt-terra",
+    "luna": "gpt-5.6-luna",
+    "terra": "gpt-5.6-terra",
 }
 
 # Current Claude model aliases from Anthropic's model overview.  Keeping these
@@ -386,11 +386,17 @@ def _get_rates_usd_per_1m(
     m = model.lower().strip()
 
     if provider == "openai":
+        long_context = int(input_tokens or 0) > 272_000
+
         if m.startswith(OPENAI_MODELS["luna"]):
-            return {"input": 2.50, "cached_input": 0.25, "output": 15.00}
+            if long_context:
+                return {"input": 0.40, "cached_input": 0.04, "cache_write": 0.50, "output": 1.80}
+            return {"input": 0.20, "cached_input": 0.02, "cache_write": 0.25, "output": 1.20}
 
         if m.startswith(OPENAI_MODELS["terra"]):
-            return {"input": 5.00, "cached_input": 0.50, "output": 25.00}
+            if long_context:
+                return {"input": 4.00, "cached_input": 0.40, "cache_write": 5.00, "output": 18.00}
+            return {"input": 2.00, "cached_input": 0.20, "cache_write": 2.50, "output": 12.00}
 
         if m == "gpt-4o-mini" or "gpt-4o-mini" in m:
             return {"input": 0.15, "cached_input": 0.075, "output": 0.60}
@@ -446,11 +452,16 @@ def _estimate_cost_usd(
     input_tokens: int,
     output_tokens: int,
     cached_input_tokens: int = 0,
+    cache_write_tokens: int = 0,
 ) -> float:
     rates = _get_rates_usd_per_1m(provider, model, input_tokens=input_tokens)
 
     cached_tokens = min(int(cached_input_tokens or 0), int(input_tokens or 0))
-    uncached_tokens = max(int(input_tokens or 0) - cached_tokens, 0)
+    written_tokens = min(
+        int(cache_write_tokens or 0),
+        max(int(input_tokens or 0) - cached_tokens, 0),
+    )
+    uncached_tokens = max(int(input_tokens or 0) - cached_tokens - written_tokens, 0)
 
     total = 0.0
     total += _per_million_cost(uncached_tokens, rates["input"])
@@ -459,6 +470,9 @@ def _estimate_cost_usd(
         total += _per_million_cost(cached_tokens, rates["cached_input"])
     elif cached_tokens:
         total += _per_million_cost(cached_tokens, rates["input"])
+
+    if written_tokens:
+        total += _per_million_cost(written_tokens, rates.get("cache_write", rates["input"]))
 
     total += _per_million_cost(int(output_tokens or 0), rates["output"])
     return total
@@ -503,6 +517,9 @@ def run_prompt_full(
                 cached_in = int(
                     _safe_get(usage, "input_tokens_details.cached_tokens", 0) or 0
                 )
+                cache_write = int(
+                    _safe_get(usage, "input_tokens_details.cache_write_tokens", 0) or 0
+                )
 
                 cost = (
                     _estimate_cost_usd(
@@ -511,6 +528,7 @@ def run_prompt_full(
                         input_tokens=in_tok,
                         output_tokens=out_tok,
                         cached_input_tokens=cached_in,
+                        cache_write_tokens=cache_write,
                     )
                     if (in_tok or out_tok)
                     else 0.0
@@ -532,6 +550,7 @@ def run_prompt_full(
             in_tok = int(_safe_get(usage, "prompt_tokens", 0) or 0)
             out_tok = int(_safe_get(usage, "completion_tokens", 0) or 0)
             cached_in = int(_safe_get(usage, "prompt_tokens_details.cached_tokens", 0) or 0)
+            cache_write = int(_safe_get(usage, "prompt_tokens_details.cache_write_tokens", 0) or 0)
 
             cost = (
                 _estimate_cost_usd(
@@ -540,6 +559,7 @@ def run_prompt_full(
                     input_tokens=in_tok,
                     output_tokens=out_tok,
                     cached_input_tokens=cached_in,
+                    cache_write_tokens=cache_write,
                 )
                 if (in_tok or out_tok)
                 else 0.0
@@ -732,7 +752,8 @@ def poll_prompt_batch(
             in_tok = int((usage.get("input_tokens") or 0))
             out_tok = int((usage.get("output_tokens") or 0))
             cached = int((((usage.get("input_tokens_details") or {}).get("cached_tokens")) or 0))
-            cost = _estimate_cost_usd(provider=provider, model=model, input_tokens=in_tok, output_tokens=out_tok, cached_input_tokens=cached) * 0.5
+            cache_write = int((((usage.get("input_tokens_details") or {}).get("cache_write_tokens")) or 0))
+            cost = _estimate_cost_usd(provider=provider, model=model, input_tokens=in_tok, output_tokens=out_tok, cached_input_tokens=cached, cache_write_tokens=cache_write) * 0.5
             out[cid] = (msg, float(cost))
         return True, out
 
